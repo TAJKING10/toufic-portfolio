@@ -1,0 +1,9 @@
+
+{
+  "name": "Toufic Jandah Portfolio",
+  "description": "Premium Full-Stack Developer & AI Engineer portfolio featuring enterprise fintech systems and AI-powered applications.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

@@ -3,11 +3,13 @@ export interface Project {
   id: string;
   title: string;
   description: string;
+  detailedOverview?: string;
   tech: string[];
-  link?: string;
   github?: string;
+  link?: string;
   image: string;
-  videoUrl?: string;
+  videoUrls?: string[];
+  category?: 'AI' | 'Fintech' | 'Full-Stack' | 'Mobile';
 }
 
 export interface Experience {

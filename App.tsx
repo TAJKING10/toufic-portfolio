@@ -1,10 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AIAssistant from './components/AIAssistant';
+import ProjectModal from './components/ProjectModal';
 import { PROJECTS, EXPERIENCES, SKILL_CATEGORIES } from './constants';
+import { Project } from './types';
 
 const App: React.FC = () => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
   return (
     <div className="min-h-screen bg-grid">
       <Navbar />
@@ -12,32 +16,44 @@ const App: React.FC = () => {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full -z-10" />
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center flex flex-col items-center">
+          <div className="relative mb-10 group">
+            <div className="absolute -inset-1 bg-gradient-to-tr from-blue-600 to-violet-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white/10 shadow-2xl">
+              <img 
+                src="/profile.jpg" 
+                alt="Toufic Jandah" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+          </div>
+          
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8 animate-float">
             <span className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
             <span className="text-xs font-medium text-slate-300 uppercase tracking-widest">Available for Enterprise Projects</span>
           </div>
           <h1 className="text-5xl md:text-8xl font-extrabold tracking-tighter mb-8">
-            Building Intelligent <br />
-            <span className="text-gradient">Digital Systems.</span>
+            Architecting Global <br />
+            <span className="text-gradient">Digital Ecosystems.</span>
           </h1>
           <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-400 mb-10 leading-relaxed">
-            Full-Stack Developer specializing in AI-powered platforms, 
-            enterprise fintech systems, and scalable infrastructure. Based in Riga.
+            Senior Full-Stack Engineer specializing in high-scale API architecture, 
+            AI-driven platforms, and enterprise fintech systems. Expert in integrating 
+            Google, Meta, and Banking ecosystems into seamless digital experiences.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
               href="#projects" 
-              className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition-all hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition-all hover:scale-105 active:scale-95 text-white"
             >
-              View My Work
+              Explore My Ecosystem
             </a>
             <a 
               href="https://github.com/TAJKING10" 
               target="_blank"
-              className="w-full sm:w-auto px-8 py-4 glass hover:bg-white/10 rounded-xl font-bold transition-all"
+              className="w-full sm:w-auto px-8 py-4 glass hover:bg-white/10 rounded-xl font-bold transition-all text-white"
             >
-              GitHub Profile
+              GitHub Architecture
             </a>
           </div>
         </div>
@@ -47,13 +63,13 @@ const App: React.FC = () => {
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { label: 'Years Experience', val: '5+' },
-            { label: 'Enterprises Served', val: '10+' },
-            { label: 'AI Models Deployed', val: '25+' },
-            { label: 'Tech Stack Apps', val: '40+' },
+            { label: 'Years Experience', val: '4+' },
+            { label: 'Enterprise Systems', val: '10+' },
+            { label: 'Custom APIs Built', val: '50+' },
+            { label: 'Global Integrations', val: '100+' },
           ].map((stat, i) => (
             <div key={i} className="text-center p-8 glass rounded-3xl group hover:border-blue-500/50 transition-colors">
-              <div className="text-4xl font-bold mb-2 text-white group-hover:scale-110 transition-transform">{stat.val}</div>
+              <div className="text-4xl font-bold mb-2 text-white group-hover:scale-110 transition-transform text-gradient">{stat.val}</div>
               <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
@@ -69,11 +85,15 @@ const App: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROJECTS.map((project) => (
-              <div key={project.id} className="group glass rounded-3xl overflow-hidden hover:border-violet-500/50 transition-all duration-500">
+              <div 
+                key={project.id} 
+                onClick={() => setSelectedProject(project)}
+                className="group glass rounded-3xl overflow-hidden hover:border-violet-500/50 transition-all duration-500 cursor-pointer"
+              >
                 <div className="aspect-video relative overflow-hidden bg-gray-900">
-                  {project.videoUrl ? (
+                  {project.videoUrls && project.videoUrls.length > 0 ? (
                     <video
-                      src={project.videoUrl}
+                      src={project.videoUrls[0]}
                       poster={project.image}
                       autoPlay
                       muted
@@ -104,11 +124,18 @@ const App: React.FC = () => {
                   </p>
                   <div className="flex gap-4">
                     <button className="flex-1 px-4 py-2.5 bg-white text-black font-bold rounded-xl text-sm hover:bg-slate-200 transition-colors">
-                      Case Study
+                      Explore Dashboard
                     </button>
-                    <button className="px-4 py-2.5 glass rounded-xl text-sm font-bold">
-                      GitHub
-                    </button>
+                    {project.github && (
+                      <a 
+                        href={project.github} 
+                        target="_blank" 
+                        className="px-4 py-2.5 glass rounded-xl text-sm font-bold flex items-center justify-center hover:bg-white/10 transition-all"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        GitHub
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -154,15 +181,18 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 tracking-tight">Core Competencies</h2>
-            <p className="text-slate-400">Advanced tools and frameworks powering my builds.</p>
+            <p className="text-slate-400">Comprehensive stack powering modern digital systems.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {SKILL_CATEGORIES.map((cat, i) => (
-              <div key={i} className="p-8 glass rounded-3xl">
-                <h3 className="text-lg font-bold mb-6 text-white border-b border-white/10 pb-4">{cat.title}</h3>
+              <div key={i} className="p-8 glass rounded-3xl group hover:border-blue-500/30 transition-all">
+                <h3 className="text-lg font-bold mb-6 text-white border-b border-white/10 pb-4 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  {cat.title}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {cat.skills.map((s, j) => (
-                    <span key={j} className="px-3 py-1.5 rounded-lg bg-white/5 text-xs text-slate-300 font-medium border border-white/5">
+                    <span key={j} className="px-3 py-1.5 rounded-lg bg-white/5 text-xs text-slate-300 font-medium border border-white/5 group-hover:border-blue-500/20 transition-all">
                       {s}
                     </span>
                   ))}
@@ -180,24 +210,44 @@ const App: React.FC = () => {
           <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
             I'm currently open to senior full-stack roles and specialized AI implementation projects.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 mb-12 flex-wrap">
             <a href="mailto:touficjandah@gmail.com" className="text-xl font-bold hover:text-blue-500 transition-colors">
               touficjandah@gmail.com
             </a>
-            <div className="hidden sm:block w-px h-6 bg-white/20" />
-            <a href="https://linkedin.com/in/toufic-jandah" target="_blank" className="text-xl font-bold hover:text-blue-500 transition-colors">
-              LinkedIn Profile
+            <div className="hidden lg:block w-px h-6 bg-white/20" />
+            <a href="https://www.linkedin.com/in/toufic-jandah-1ab9a4310/" target="_blank" className="text-xl font-bold hover:text-blue-500 transition-colors">
+              LinkedIn
+            </a>
+            <div className="hidden lg:block w-px h-6 bg-white/20" />
+            <a href="https://github.com/TAJKING10" target="_blank" className="text-xl font-bold hover:text-blue-500 transition-colors">
+              GitHub
+            </a>
+            <div className="hidden lg:block w-px h-6 bg-white/20" />
+            <a href="https://wa.me/37128103532" target="_blank" className="text-xl font-bold hover:text-blue-500 transition-colors">
+              WhatsApp
             </a>
           </div>
-          <button className="px-10 py-5 bg-gradient-to-tr from-blue-600 to-violet-600 rounded-2xl font-black text-xl hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all active:scale-95">
+          <a 
+            href="https://wa.me/37128103532" 
+            target="_blank"
+            className="inline-block px-10 py-5 bg-gradient-to-tr from-blue-600 to-violet-600 rounded-2xl font-black text-xl hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all active:scale-95 text-white"
+          >
             LET'S TALK
-          </button>
+          </a>
         </div>
       </section>
 
       <footer className="py-10 border-t border-white/5 text-center text-slate-500 text-sm">
         <p>&copy; {new Date().getFullYear()} Toufic Jandah. Built with Next.js & Gemini AI.</p>
       </footer>
+
+      {/* Modal */}
+      {selectedProject && (
+        <ProjectModal 
+          project={selectedProject} 
+          onClose={() => setSelectedProject(null)} 
+        />
+      )}
 
       <AIAssistant />
     </div>

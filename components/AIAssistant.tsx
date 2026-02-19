@@ -1,11 +1,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageSquare, X, Send, Bot, User, Sparkles } from 'lucide-react';
 import { PortfolioAI } from '../services/geminiService';
 
 const AIAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([
-    { role: 'ai', text: "Hi! I'm Toufic's AI assistant. Ask me anything about his experience or projects!" }
+    { role: 'ai', text: "Welcome! I'm Toufic's AI representative. How can I help you explore his expertise today?" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +18,7 @@ const AIAssistant: React.FC = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -26,79 +28,123 @@ const AIAssistant: React.FC = () => {
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setIsLoading(true);
 
-    const response = await aiService.current.ask(userMsg);
-    
-    setMessages(prev => [...prev, { role: 'ai', text: response }]);
-    setIsLoading(false);
+    try {
+      const response = await aiService.current.ask(userMsg);
+      setMessages(prev => [...prev, { role: 'ai', text: response }]);
+    } catch (error) {
+      setMessages(prev => [...prev, { role: 'ai', text: "I'm having trouble connecting right now. Please try again or contact Toufic directly!" }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[60]">
-      {isOpen ? (
-        <div className="w-[350px] sm:w-[400px] h-[500px] glass rounded-2xl flex flex-col shadow-2xl overflow-hidden border border-white/20">
-          <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="font-semibold text-sm">Toufic's AI Assistant</span>
-            </div>
-            <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white text-xl">&times;</button>
-          </div>
-          
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
-                  m.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-tr-none' 
-                    : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
-                }`}>
-                  {m.text}
+    <div className="fixed bottom-8 right-8 z-[100]">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20, transformOrigin: 'bottom right' }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="w-[380px] sm:w-[450px] h-[600px] glass rounded-[32px] flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 mb-6"
+          >
+            {/* Header */}
+            <div className="p-6 bg-white/5 border-b border-white/10 flex justify-between items-center backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.5)]">
+                    <Bot className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-[#030712]" />
+                </div>
+                <div>
+                  <h3 className="font-black text-sm text-white tracking-wide">ECOSYSTEM AI</h3>
+                  <p className="text-[10px] text-green-500 font-bold uppercase tracking-widest">Active Representation</p>
                 </div>
               </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-white/10 p-3 rounded-2xl rounded-tl-none border border-white/5 flex gap-1">
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="p-4 border-t border-white/10 bg-black/20">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleSend()}
-                placeholder="Ask me something..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-              />
               <button 
-                onClick={handleSend}
-                disabled={isLoading}
-                className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 p-2 rounded-xl transition-colors"
+                onClick={() => setIsOpen(false)} 
+                className="p-2 hover:bg-white/10 rounded-xl transition-colors text-slate-400 hover:text-white"
               >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+                <X className="w-6 h-6" />
               </button>
             </div>
-          </div>
-        </div>
-      ) : (
-        <button 
-          onClick={() => setIsOpen(true)}
-          className="w-14 h-14 rounded-full bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center shadow-lg hover:scale-110 transition-transform active:scale-95 group"
-        >
-          <svg className="w-7 h-7 text-white group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
-        </button>
-      )}
+            
+            {/* Messages */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth no-scrollbar">
+              {messages.map((m, i) => (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex items-start gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}
+                >
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                    m.role === 'user' ? 'bg-white/10' : 'bg-blue-600/20'
+                  }`}>
+                    {m.role === 'user' ? <User className="w-4 h-4 text-slate-300" /> : <Bot className="w-4 h-4 text-blue-400" />}
+                  </div>
+                  <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${
+                    m.role === 'user' 
+                      ? 'bg-blue-600 text-white rounded-tr-none shadow-lg' 
+                      : 'bg-white/5 text-slate-200 rounded-tl-none border border-white/5'
+                  }`}>
+                    {m.text}
+                  </div>
+                </motion.div>
+              ))}
+              {isLoading && (
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center shrink-0">
+                    <Bot className="w-4 h-4 text-blue-400" />
+                  </div>
+                  <div className="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 flex gap-1.5 items-center">
+                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input */}
+            <div className="p-6 border-t border-white/10 bg-black/40 backdrop-blur-xl">
+              <div className="flex gap-3 relative">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSend()}
+                  placeholder="Ask about my tech stack or projects..."
+                  className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:border-blue-500/50 transition-all placeholder:text-slate-600 pr-14"
+                />
+                <button 
+                  onClick={handleSend}
+                  disabled={isLoading || !input.trim()}
+                  className="absolute right-2 top-2 bottom-2 aspect-square bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:bg-slate-800 rounded-xl transition-all flex items-center justify-center group"
+                >
+                  <Send className="w-5 h-5 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </button>
+              </div>
+              <p className="text-[10px] text-center mt-4 text-slate-500 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                <Sparkles className="w-3 h-3 text-blue-500" />
+                Powered by Gemini 2.0 Flash
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.button 
+        onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-[0_10px_30px_rgba(37,99,235,0.4)] transition-all duration-500 ${
+          isOpen ? 'bg-slate-800 rotate-90' : 'bg-gradient-to-tr from-blue-600 via-violet-600 to-pink-600'
+        }`}
+      >
+        {isOpen ? <X className="w-8 h-8 text-white" /> : <MessageSquare className="w-8 h-8 text-white" />}
+      </motion.button>
     </div>
   );
 };

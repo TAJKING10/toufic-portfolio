@@ -31,6 +31,9 @@ import ProjectCard from './components/ProjectCard';
 import { PROJECTS, EXPERIENCES, SKILL_CATEGORIES } from './constants';
 import { Project } from './types';
 
+// Helper to get correct asset path for GitHub Pages
+const base = import.meta.env.BASE_URL;
+
 const KineticText: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
   return (
     <div className={`flex flex-wrap overflow-hidden ${className}`}>
@@ -242,7 +245,7 @@ const App: React.FC = () => {
             >
               <div className="absolute -inset-12 bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-600 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition duration-1000 animate-pulse" />
               <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-[12px] border-white/5 shadow-[0_0_80px_rgba(0,0,0,0.8)]">
-                <img src="/profile.jpg" alt="Toufic Jandah" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
+                <img src={`${base}profile.jpg`} alt="Toufic Jandah" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
                 
                 {/* Biometric Scanner Line */}
                 <motion.div 
@@ -305,7 +308,7 @@ const App: React.FC = () => {
               
               {/* Premium CV Download Button */}
               <MagneticButton 
-                href="/Toufic Jandah CV,.pdf"
+                href={`${base}Toufic Jandah CV,.pdf`}
                 download="Toufic_Jandah_CV.pdf"
                 variant="accent"
                 className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all group flex items-center justify-center gap-6"

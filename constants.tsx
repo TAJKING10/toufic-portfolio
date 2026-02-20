@@ -1,6 +1,9 @@
 
 import { Project, Experience, SkillCategory } from './types';
 
+// Helper to get correct asset path for GitHub Pages
+const base = import.meta.env.BASE_URL;
+
 export const PROJECTS: Project[] = [
   {
     id: 'payroll',
@@ -8,7 +11,7 @@ export const PROJECTS: Project[] = [
     description: 'Enterprise-grade payroll platform with Luxembourg tax engine, RBAC, and Dockerized CI/CD pipelines.',
     tech: ['React 18', 'TypeScript', 'Supabase', 'PostgreSQL', 'jsPDF', 'Docker'],
     image: 'https://picsum.photos/800/600?random=1',
-    videoUrls: ['/videos/payslip.mp4'],
+    videoUrls: [`${base}videos/payslip.mp4`],
     github: 'https://github.com/TAJKING10/excelexcel',
     category: 'Fintech'
   },
@@ -18,7 +21,7 @@ export const PROJECTS: Project[] = [
     description: 'AI-driven mobile app analyzing sleep stages (Deep/Light/REM) using motion data and server-side AI pipelines.',
     tech: ['React Expo', 'Supabase', 'AI Pipelines', 'Payment APIs'],
     image: 'https://picsum.photos/800/600?random=2',
-    videoUrls: ['/videos/sleep-tracking-1.mp4', '/videos/sleep-tracking-2.mp4'],
+    videoUrls: [`${base}videos/sleep-tracking-1.mp4`, `${base}videos/sleep-tracking-2.mp4`],
     github: 'https://github.com/TAJKING10/sleeptracker',
     category: 'AI'
   },
@@ -28,7 +31,7 @@ export const PROJECTS: Project[] = [
     description: 'AI assistant for task automation via GPT-4 and Web Speech API, supporting voice commands.',
     tech: ['Next.js', 'TypeScript', 'Supabase', 'OpenAI API', 'Framer Motion'],
     image: 'https://picsum.photos/800/600?random=3',
-    videoUrls: ['/videos/kanban-1.mp4', '/videos/kanban-2.mp4'],
+    videoUrls: [`${base}videos/kanban-1.mp4`, `${base}videos/kanban-2.mp4`],
     github: 'https://github.com/TAJKING10/WEBSITETASKFLOW',
     category: 'Full-Stack'
   },
@@ -38,7 +41,7 @@ export const PROJECTS: Project[] = [
     description: 'Location-based service platform with Google Maps API and secure OTP-based authentication.',
     tech: ['Node.js', 'Firebase', 'Google Maps API', 'Email.js'],
     image: 'https://picsum.photos/800/600?random=4',
-    videoUrls: ['/videos/tugo-1.mp4', '/videos/tugo-edited.mp4', '/videos/tugo-3.mp4'],
+    videoUrls: [`${base}videos/tugo-1.mp4`, `${base}videos/tugo-edited.mp4`, `${base}videos/tugo-3.mp4`],
     github: 'https://github.com/TAJKING10/TUGO',
     category: 'Mobile'
   },
@@ -48,7 +51,7 @@ export const PROJECTS: Project[] = [
     description: 'Financial trading dashboard with real-time data visualization and secure transaction handling.',
     tech: ['React', 'D3.js', 'WebSockets', 'Node.js'],
     image: 'https://picsum.photos/800/600?random=5',
-    videoUrls: ['/videos/advensys-finance.mp4'],
+    videoUrls: [`${base}videos/advensys-finance.mp4`],
     github: 'https://github.com/TAJKING10/AdvensysInFinance',
     category: 'Fintech'
   },
@@ -58,7 +61,7 @@ export const PROJECTS: Project[] = [
     description: 'Smart vending machine interface with AI-powered product recognition and recommendation engine.',
     tech: ['Python', 'OpenCV', 'TensorFlow', 'IoT'],
     image: 'https://picsum.photos/800/600?random=6',
-    videoUrls: ['/videos/ai-vending.mp4'],
+    videoUrls: [`${base}videos/ai-vending.mp4`],
     github: 'https://github.com/TAJKING10/cloningk',
     category: 'AI'
   },
@@ -68,7 +71,7 @@ export const PROJECTS: Project[] = [
     description: 'Modern booking and management platform for barbershops with customer loyalty features.',
     tech: ['React Native', 'Firebase', 'Stripe'],
     image: 'https://picsum.photos/800/600?random=7',
-    videoUrls: ['/videos/barbery.mp4'],
+    videoUrls: [`${base}videos/barbery.mp4`],
     github: 'https://github.com/TAJKING10/barberyy',
     category: 'Mobile'
   },
@@ -78,7 +81,7 @@ export const PROJECTS: Project[] = [
     description: 'Comprehensive event management system for ticketing, scheduling, and attendee engagement.',
     tech: ['Next.js', 'PostgreSQL', 'Prisma', 'Stripe'],
     image: 'https://picsum.photos/800/600?random=8',
-    videoUrls: ['/videos/eventfull.mp4'],
+    videoUrls: [`${base}videos/eventfull.mp4`],
     github: 'https://github.com/TAJKING10/Event-full',
     category: 'Full-Stack'
   },
@@ -88,7 +91,7 @@ export const PROJECTS: Project[] = [
     description: 'E-commerce platform specializing in luxury goods with immersive 3D product previews.',
     tech: ['Three.js', 'React', 'Shopify API'],
     image: 'https://picsum.photos/800/600?random=9',
-    videoUrls: ['/videos/sabourg.mp4'],
+    videoUrls: [`${base}videos/sabourg.mp4`],
     category: 'Full-Stack'
   },
   {
@@ -139,7 +142,7 @@ export const PROJECTS: Project[] = [
     description: 'Advanced data processing and machine learning pipelines for predictive analytics.',
     tech: ['Python', 'Pandas', 'NumPy', 'Scikit-learn', 'TensorFlow'],
     image: 'https://images.unsplash.com/photo-1551288049-bbbda536ad0a?q=80&w=1200',
-    videoUrls: ['/videos/bigdata.mp4', '/videos/bigdata2.mp4', '/videos/big-data-continue.mp4', '/videos/3.mp4'],
+    videoUrls: [`${base}videos/bigdata.mp4`, `${base}videos/bigdata2.mp4`, `${base}videos/big-data-continue.mp4`, `${base}videos/3.mp4`],
     category: 'AI'
   }
 ];

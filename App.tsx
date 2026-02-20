@@ -308,8 +308,8 @@ const App: React.FC = () => {
               
               {/* Premium CV Download Button */}
               <MagneticButton 
-                href={`${base}Toufic Jandah CV,.pdf`}
-                download="Toufic_Jandah_CV.pdf"
+                href={`${base}Toufic-Jandah CV.pdf`}
+                download="Toufic-Jandah_CV.pdf"
                 variant="accent"
                 className="w-full lg:w-auto px-8 md:px-12 py-5 md:py-6 rounded-[32px] font-black text-lg md:text-xl transition-all group flex items-center justify-center gap-4"
               >

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, LayoutGrid, Briefcase, Code, Send, Cpu } from 'lucide-react';
 
+const base = import.meta.env.BASE_URL;
+
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -34,7 +36,7 @@ const Navbar: React.FC = () => {
           <div className="relative">
             <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-violet-600 rounded-full blur-xl opacity-40 group-hover:opacity-100 transition duration-700 animate-pulse" />
             <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-white/20 ring-4 ring-white/5 shadow-2xl">
-              <img src="/profile.jpg" alt="Toufic Jandah" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              <img src={`${base}profile.jpg`} alt="Toufic Jandah" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
             </div>
           </div>
           <div className="flex flex-col">

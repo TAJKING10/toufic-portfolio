@@ -1,7 +1,6 @@
-
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Play, ArrowUpRight } from 'lucide-react';
+import { Play, ArrowUpRight, Cpu } from 'lucide-react';
 import { Project } from '../types';
 
 interface ProjectCardProps {
@@ -90,9 +89,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onClick, isLa
           
           <div className="absolute inset-0 p-10 md:p-16 flex flex-col justify-end z-20">
             <div className="flex justify-between items-start mb-8">
-              <span className="text-[10px] font-black uppercase tracking-[0.5em] px-6 py-3 rounded-full bg-blue-600 text-white shadow-2xl border border-blue-400/30">
-                {project.category}
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] px-6 py-3 rounded-full bg-blue-600 text-white shadow-2xl border border-blue-400/30">
+                  {project.category}
+                </span>
+                <div className="glass px-4 py-2 rounded-full flex items-center gap-2 border-white/5 bg-white/5">
+                  <div className="pulse-status-green" />
+                  <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">System Active</span>
+                </div>
+              </div>
               <motion.div 
                 whileHover={{ rotate: 45, scale: 1.2 }}
                 className="w-14 h-14 rounded-full glass border-white/20 flex items-center justify-center text-white"

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence, useMotionValue } from 'framer-motion';
 import { 
@@ -11,7 +10,11 @@ import {
   Play, 
   Infinity as InfinityIcon,
   Fingerprint,
-  ChevronDown
+  ChevronDown,
+  Activity,
+  Cpu,
+  Shield,
+  Layers
 } from 'lucide-react';
 import Navbar from './components/Navbar';
 import AIAssistant from './components/AIAssistant';
@@ -85,6 +88,62 @@ const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; 
   );
 };
 
+const SkillDiagnostic: React.FC<{ category: typeof SKILL_CATEGORIES[0], index: number }> = ({ category, index }) => {
+  const [load, setLoad] = useState(0);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setLoad(85 + (index * 4)), 3000);
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -10 }}
+      className="p-10 glass rounded-[48px] border border-white/5 relative overflow-hidden group"
+    >
+      <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
+        <Activity className="w-20 h-20 text-blue-500" />
+      </div>
+      
+      <div className="flex items-center gap-4 mb-10">
+        <div className="w-12 h-12 rounded-2xl bg-blue-600/20 flex items-center justify-center border border-blue-500/20">
+          <Cpu className="w-6 h-6 text-blue-500" />
+        </div>
+        <div>
+          <h3 className="text-xl font-black text-white tracking-tighter">{category.title}</h3>
+          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Diagnostic Level: {load}%</p>
+        </div>
+      </div>
+
+      <div className="space-y-4 mb-10">
+        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: `${load}%` }}
+            transition={{ duration: 2, ease: "easeOut" }}
+            className="h-full bg-gradient-to-r from-blue-600 to-violet-600 shadow-[0_0_20px_rgba(37,99,235,0.5)]"
+          />
+        </div>
+        <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-slate-600">
+          <span>Cold Standby</span>
+          <span className="text-blue-500">Peak Performance</span>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2.5">
+        {category.skills.map((s, j) => (
+          <span key={j} className="px-4 py-2 rounded-xl bg-white/5 text-[9px] text-slate-400 font-black border border-white/10 uppercase tracking-[0.1em] hover:bg-blue-600/20 hover:text-white hover:border-blue-500/30 transition-all cursor-default">
+            {s}
+          </span>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
+
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -144,9 +203,9 @@ const App: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 3.2 }}
-                className="px-6 py-2 glass rounded-full border-blue-500/20 text-blue-400 font-black text-xs uppercase tracking-[0.5em]"
+                className="px-6 py-2 glass rounded-full border-blue-500/20 text-blue-400 font-black text-xs uppercase tracking-[0.5em] flex items-center gap-3"
               >
-                Systems Architect & API Specialist
+                <div className="pulse-status-green" /> System Online
               </motion.div>
               <KineticText 
                 text="TRANSFORMING IDEAS." 
@@ -195,7 +254,7 @@ const App: React.FC = () => {
             transition={{ delay: 5.5 }}
             className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-slate-600"
           >
-            <span className="text-[10px] font-black uppercase tracking-[0.8em] animate-pulse">Exploration Pending</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.8em] animate-pulse">Deep Scaning Data</span>
             <ChevronDown className="w-6 h-6 animate-bounce text-blue-500" />
           </motion.div>
         </section>
@@ -205,7 +264,7 @@ const App: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-40 text-center">
               <h2 className="text-6xl md:text-[9rem] font-black mb-10 tracking-tighter leading-[0.8] text-white">Project <br /> <span className="text-gradient">Portfolio.</span></h2>
-              <p className="text-slate-500 font-bold uppercase tracking-[0.4em] text-sm">Curated System Implementations</p>
+              <div className="h-2 w-60 bg-gradient-to-r from-blue-600 to-pink-600 mx-auto rounded-full" />
             </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
@@ -222,34 +281,48 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Lineage Section */}
+        {/* Career Protocol Section */}
         <section id="experience" className="py-40 md:py-60 px-6 relative">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-40">
               <h2 className="text-6xl md:text-[9rem] font-black mb-6 tracking-tighter text-white">Lineage.</h2>
-              <div className="h-1.5 w-40 bg-blue-600 mx-auto rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]" />
+              <p className="text-blue-500 font-black text-xs uppercase tracking-[0.8em]">Career Protocol Logs</p>
             </div>
             
-            <div className="space-y-40">
+            <div className="relative space-y-40">
+              {/* Timeline Circuit Line */}
+              <div className="absolute left-[30px] md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-600 via-purple-600 to-transparent opacity-20 hidden md:block" />
+
               {EXPERIENCES.map((exp, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, y: 100 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
-                  className="grid md:grid-cols-12 gap-16 group relative"
+                  className={`grid md:grid-cols-2 gap-10 md:gap-32 relative ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
                 >
-                  <div className="md:col-span-5 border-l-4 border-blue-600/30 pl-12">
-                    <span className="text-xs font-black text-blue-500 uppercase tracking-[0.5em] mb-8 block">{exp.period}</span>
-                    <h3 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight group-hover:text-blue-400 transition-colors">{exp.role}</h3>
-                    <p className="text-2xl font-bold text-slate-500">{exp.company}</p>
-                    <p className="text-sm font-black text-slate-600 uppercase tracking-widest mt-4">{exp.location}</p>
+                  {/* Circuit Node */}
+                  <div className="absolute left-1/2 -translate-x-1/2 top-0 hidden md:flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-full glass border-blue-500/40 flex items-center justify-center z-10 bg-[#030712]">
+                      <div className="w-4 h-4 rounded-full bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,1)]" />
+                    </div>
                   </div>
-                  <div className="md:col-span-7 p-10 md:p-16 glass rounded-[60px] border border-white/5 group-hover:border-blue-500/30 transition-all hover:shadow-[0_40px_100px_rgba(0,0,0,0.8)] bg-gradient-to-br from-white/[0.03] to-transparent">
-                    <ul className="space-y-10">
+
+                  <div className={`${i % 2 !== 0 ? 'md:order-2' : ''} border-l-4 border-blue-600/30 pl-10 md:pl-0 md:border-none md:text-right ${i % 2 !== 0 ? 'md:text-left' : ''}`}>
+                    <span className="text-xs font-black text-blue-500 uppercase tracking-[0.5em] mb-4 block">{exp.period}</span>
+                    <h3 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{exp.role}</h3>
+                    <p className="text-2xl font-bold text-slate-500 mb-4">{exp.company}</p>
+                    <div className={`flex items-center gap-3 ${i % 2 !== 0 ? 'md:justify-start' : 'md:justify-end'}`}>
+                      <div className="pulse-status-blue" />
+                      <span className="text-xs font-black text-slate-600 uppercase tracking-widest">{exp.location}</span>
+                    </div>
+                  </div>
+
+                  <div className="p-10 md:p-14 glass rounded-[60px] border border-white/5 bg-gradient-to-br from-white/[0.03] to-transparent hover:border-blue-500/30 transition-all hover:shadow-[0_40px_100px_rgba(0,0,0,0.8)]">
+                    <ul className="space-y-8">
                       {exp.description.map((item, j) => (
-                        <li key={j} className="text-slate-300 text-lg md:text-xl leading-relaxed flex items-start gap-8 font-medium">
-                          <Zap className="w-10 h-10 text-blue-600 shrink-0 mt-1 shadow-2xl" />
+                        <li key={j} className="text-slate-300 text-lg leading-relaxed flex items-start gap-6 font-medium">
+                          <Zap className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
                           {item}
                         </li>
                       ))}
@@ -261,32 +334,15 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Stack Section */}
-        <section id="skills" className="py-40 px-6">
+        {/* Diagnostic Stack Section */}
+        <section id="skills" className="py-40 px-6 bg-blue-600/[0.02]">
           <div className="max-w-7xl mx-auto text-center mb-40">
-            <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter text-white mb-8">The Stack.</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-[0.5em] text-xs">Architectural Arsenal</p>
+            <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter text-white mb-8">Diagnostics.</h2>
+            <p className="text-slate-500 font-bold uppercase tracking-[0.5em] text-xs">Full-Spectrum System Mastery</p>
           </div>
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
             {SKILL_CATEGORIES.map((cat, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -20, rotate: 1 }}
-                className="p-12 glass rounded-[50px] border border-white/5 hover:border-blue-500/40 transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
-                  <Code className="w-24 h-24 text-white" />
-                </div>
-                <h3 className="text-2xl font-black mb-10 text-white tracking-tighter">{cat.title}</h3>
-                <div className="flex flex-wrap gap-3">
-                  {cat.skills.map((s, j) => (
-                    <span key={j} className="px-5 py-2.5 rounded-xl bg-white/5 text-[10px] text-slate-400 font-black border border-white/5 uppercase tracking-[0.2em] hover:bg-blue-600/20 hover:text-white transition-all cursor-default">{s}</span>
-                  ))}
-                </div>
-              </motion.div>
+              <SkillDiagnostic key={i} category={cat} index={i} />
             ))}
           </div>
         </section>
@@ -331,7 +387,9 @@ const App: React.FC = () => {
           <div className="max-w-7xl mx-auto px-12 flex flex-col md:flex-row items-center justify-between gap-12 text-slate-600 text-[10px] font-black uppercase tracking-[0.6em]">
             <div className="flex items-center gap-4 text-blue-600/60">TJ / SYSTEMS ARCHITECT</div>
             <div className="opacity-40">&copy; 2026 WORLDWIDE DATA SYSTEMS</div>
-            <div className="px-8 py-3 glass rounded-full text-slate-400 font-bold border-white/5">PROTOCOL ACTIVE</div>
+            <div className="px-8 py-3 glass rounded-full text-slate-400 font-bold border-white/5 flex items-center gap-2">
+               <div className="w-1.5 h-1.5 rounded-full bg-green-500" /> ENCRYPTED CONNECTION
+            </div>
           </div>
         </footer>
       </main>

@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, User, Sparkles } from 'lucide-react';
@@ -6,6 +5,7 @@ import { PortfolioAI } from '../services/geminiService';
 
 const AIAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([
     { role: 'ai', text: "Welcome! I'm Toufic's AI representative. How can I help you explore his expertise today?" }
   ]);
@@ -19,6 +19,13 @@ const AIAssistant: React.FC = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) setShowTooltip(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -39,8 +46,28 @@ const AIAssistant: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-[100]">
+    <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end">
       <AnimatePresence>
+        {showTooltip && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="mb-4 mr-2 glass px-6 py-4 rounded-[20px] shadow-2xl border-blue-500/20 max-w-[200px]"
+          >
+            <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-1 flex items-center gap-2">
+              <Sparkles className="w-3 h-3" /> System AI
+            </p>
+            <p className="text-xs text-white font-bold">Ask me about Toufic's fintech or AI projects!</p>
+            <button 
+              onClick={() => setShowTooltip(false)}
+              className="absolute -top-2 -right-2 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center text-white"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </motion.div>
+        )}
+
         {isOpen && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20, transformOrigin: 'bottom right' }}
@@ -55,7 +82,7 @@ const AIAssistant: React.FC = () => {
                   <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.5)]">
                     <Bot className="w-6 h-6 text-white" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-[#030712]" />
+                  <div className="absolute -bottom-1 -right-1 pulse-status-green" />
                 </div>
                 <div>
                   <h3 className="font-black text-sm text-white tracking-wide">ECOSYSTEM AI</h3>

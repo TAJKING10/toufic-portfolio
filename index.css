@@ -57,6 +57,26 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .pulse-status-green {
+    @apply relative flex h-2 w-2;
+  }
+  .pulse-status-green span:first-child {
+    @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75;
+  }
+  .pulse-status-green span:last-child {
+    @apply relative inline-flex rounded-full h-2 w-2 bg-green-500;
+  }
+
+  .pulse-status-blue {
+    @apply relative flex h-2 w-2;
+  }
+  .pulse-status-blue span:first-child {
+    @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75;
+  }
+  .pulse-status-blue span:last-child {
+    @apply relative inline-flex rounded-full h-2 w-2 bg-blue-500;
+  }
 }
 
 /* Hide volume and mute controls */

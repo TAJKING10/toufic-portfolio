@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue } from 'framer-motion';
 import { 
@@ -17,7 +16,12 @@ import {
   Shield,
   Layers,
   Monitor,
-  Terminal
+  Terminal,
+  Download,
+  Wifi,
+  Globe,
+  Database,
+  Lock
 } from 'lucide-react';
 import Navbar from './components/Navbar';
 import ProjectModal from './components/ProjectModal';
@@ -50,7 +54,7 @@ const KineticText: React.FC<{ text: string; className?: string }> = ({ text, cla
   );
 };
 
-const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; onClick?: () => void; href?: string; target?: string; variant?: 'primary' | 'secondary' }> = ({ children, className, onClick, href, target, variant = 'secondary' }) => {
+const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; onClick?: () => void; href?: string; download?: string; target?: string; variant?: 'primary' | 'secondary' | 'accent' }> = ({ children, className, onClick, href, download, target, variant = 'secondary' }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
@@ -80,11 +84,14 @@ const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; 
     >
       <Component
         href={href}
+        download={download}
         target={target}
         onClick={onClick}
         className={`${className} ${
           variant === 'primary' 
             ? 'bg-blue-600 text-white shadow-[0_0_40px_rgba(37,99,235,0.4)] hover:shadow-[0_0_60px_rgba(37,99,235,0.6)]' 
+            : variant === 'accent'
+            ? 'bg-white text-black hover:bg-slate-200 shadow-[0_20px_40px_rgba(255,255,255,0.1)]'
             : 'glass text-white hover:bg-white/10'
         } transition-all duration-500`}
       >
@@ -167,6 +174,7 @@ const SkillDiagnostic: React.FC<{ category: typeof SKILL_CATEGORIES[0], index: n
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [latency, setLatency] = useState(24);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll();
@@ -176,8 +184,11 @@ const App: React.FC = () => {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   useEffect(() => {
-    // Simulate loading
     setTimeout(() => setLoading(false), 2000);
+    const interval = setInterval(() => {
+      setLatency(Math.floor(Math.random() * 10) + 20);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -190,11 +201,35 @@ const App: React.FC = () => {
       
       <motion.div className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 z-[100] origin-left shadow-[0_0_15px_rgba(37,99,235,0.5)]" style={{ scaleX }} />
       
+      {/* Fixed Telemetry Bar */}
+      <div className="fixed top-0 left-0 right-0 h-8 z-[90] px-6 hidden lg:flex items-center justify-between text-[8px] font-black uppercase tracking-[0.4em] text-slate-600 border-b border-white/5 bg-black/20 backdrop-blur-md">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <Globe className="w-3 h-3 text-blue-500" />
+            <span>Node: Riga_LV</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Wifi className="w-3 h-3 text-green-500" />
+            <span>Latency: {latency}ms</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <Database className="w-3 h-3 text-violet-500" />
+            <span>Storage: Encrypted</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Lock className="w-3 h-3 text-blue-500" />
+            <span>Protocol: AES-256</span>
+          </div>
+        </div>
+      </div>
+
       <Navbar />
       
       <main className={`${loading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000`}>
         {/* Hero Section */}
-        <section className="relative pt-32 pb-24 md:pt-56 md:pb-48 px-6 min-h-screen flex flex-col items-center justify-center overflow-hidden">
+        <section className="relative pt-40 pb-24 md:pt-64 md:pb-48 px-6 min-h-screen flex flex-col items-center justify-center overflow-hidden">
           <motion.div 
             style={{ y: heroY, opacity: heroOpacity }}
             className="max-w-7xl mx-auto text-center relative z-20"
@@ -208,7 +243,15 @@ const App: React.FC = () => {
               <div className="absolute -inset-12 bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-600 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition duration-1000 animate-pulse" />
               <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-[12px] border-white/5 shadow-[0_0_80px_rgba(0,0,0,0.8)]">
                 <img src="/profile.jpg" alt="Toufic Jandah" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
+                
+                {/* Biometric Scanner Line */}
+                <motion.div 
+                  animate={{ top: ['0%', '100%', '0%'] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                  className="absolute left-0 right-0 h-1 bg-blue-500/50 shadow-[0_0_15px_rgba(37,99,235,1)] z-10 pointer-events-none"
+                />
               </div>
+              
               <motion.div 
                 animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
                 transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
@@ -250,19 +293,30 @@ const App: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.2, duration: 0.8 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10 px-6"
+              className="flex flex-col lg:flex-row items-center justify-center gap-6 md:gap-10 px-6"
             >
               <MagneticButton 
                 href="#projects"
                 variant="primary"
-                className="w-full sm:w-auto px-12 md:px-20 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all overflow-hidden relative group"
+                className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all overflow-hidden relative group"
               >
                 VIEW PROJECTS <Monitor className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform" />
               </MagneticButton>
+              
+              {/* Premium CV Download Button */}
+              <MagneticButton 
+                href="/Toufic Jandah CV,.pdf"
+                download="Toufic_Jandah_CV.pdf"
+                variant="accent"
+                className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all group flex items-center justify-center gap-6"
+              >
+                DOWNLOAD CV <Download className="w-8 h-8 md:w-10 md:h-10 animate-bounce" />
+              </MagneticButton>
+
               <MagneticButton 
                 href="https://github.com/TAJKING10" 
                 target="_blank"
-                className="w-full sm:w-auto px-12 md:px-20 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all flex items-center justify-center gap-6 group border-white/20"
+                className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all flex items-center justify-center gap-6 group border-white/20"
               >
                 <Github className="w-8 h-8 md:w-10 md:h-10" /> GITHUB
               </MagneticButton>
@@ -311,7 +365,6 @@ const App: React.FC = () => {
             </div>
             
             <div className="relative space-y-24 md:space-y-40">
-              {/* Timeline Circuit Line */}
               <div className="absolute left-[30px] md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-600 via-purple-600 to-transparent opacity-20 hidden md:block" />
 
               {EXPERIENCES.map((exp, i) => (
@@ -322,7 +375,6 @@ const App: React.FC = () => {
                   viewport={{ once: true, margin: "-100px" }}
                   className={`grid md:grid-cols-2 gap-10 md:gap-32 relative ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
                 >
-                  {/* Circuit Node */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-0 hidden md:flex flex-col items-center">
                     <div className="w-16 h-16 rounded-full glass border-blue-500/40 flex items-center justify-center z-10 bg-[#030712]">
                       <div className="w-4 h-4 rounded-full bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,1)]" />

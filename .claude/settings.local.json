@@ -6,7 +6,12 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd GitHub Pages deployment\n\n- Configure base path for GitHub Pages\n- Add GitHub Actions workflow for automated deployment\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git push:*)",
       "Bash(npm run build:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(gh auth status:*)",
+      "Bash(grep:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run deploy:*)"
     ]
   }
 }

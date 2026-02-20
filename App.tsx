@@ -454,7 +454,7 @@ const App: React.FC = () => {
                 variant="primary"
                 className="inline-flex items-center gap-4 md:gap-6 px-8 md:px-14 py-5 md:py-7 rounded-[28px] md:rounded-[32px] font-black text-xl md:text-2xl group hover:scale-105 transition-all overflow-hidden relative"
               >
-                SECURE ACCESS <ArrowRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-4 transition-transform" />
+                CONTACT ME <ArrowRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-4 transition-transform" />
               </MagneticButton>
             </div>
           </div>

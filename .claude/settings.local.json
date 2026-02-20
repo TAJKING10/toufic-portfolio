@@ -11,7 +11,9 @@
       "Bash(gh auth status:*)",
       "Bash(grep:*)",
       "Bash(npm install:*)",
-      "Bash(npm run deploy:*)"
+      "Bash(npm run deploy:*)",
+      "Bash(timeout:*)",
+      "Bash(findstr:*)"
     ]
   }
 }

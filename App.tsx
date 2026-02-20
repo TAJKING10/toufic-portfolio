@@ -274,12 +274,12 @@ const App: React.FC = () => {
                 <div className="pulse-status-green" /> System Online
               </motion.div>
               <KineticText 
-                text="TRANSFORMING IDEAS." 
-                className="text-4xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[1.1] md:leading-[0.85] text-white text-center drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                text="TRANSFORMING IDEAS."
+                className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.1] md:leading-[0.9] text-white text-center drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
               />
               <KineticText 
-                text="INTO ECOSYSTEMS." 
-                className="text-4xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[1.1] md:leading-[0.85] text-gradient text-center drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                text="INTO ECOSYSTEMS."
+                className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.1] md:leading-[0.9] text-gradient text-center drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
               />
             </div>
 
@@ -301,9 +301,9 @@ const App: React.FC = () => {
               <MagneticButton 
                 href="#projects"
                 variant="primary"
-                className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all overflow-hidden relative group"
+                className="w-full lg:w-auto px-8 md:px-12 py-5 md:py-6 rounded-[32px] font-black text-lg md:text-xl transition-all overflow-hidden relative group"
               >
-                VIEW PROJECTS <Monitor className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform" />
+                VIEW PROJECTS <Monitor className="w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform" />
               </MagneticButton>
               
               {/* Premium CV Download Button */}
@@ -311,17 +311,17 @@ const App: React.FC = () => {
                 href={`${base}Toufic Jandah CV,.pdf`}
                 download="Toufic_Jandah_CV.pdf"
                 variant="accent"
-                className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all group flex items-center justify-center gap-6"
+                className="w-full lg:w-auto px-8 md:px-12 py-5 md:py-6 rounded-[32px] font-black text-lg md:text-xl transition-all group flex items-center justify-center gap-4"
               >
-                DOWNLOAD CV <Download className="w-8 h-8 md:w-10 md:h-10 animate-bounce" />
+                DOWNLOAD CV <Download className="w-5 h-5 md:w-6 md:h-6 animate-bounce" />
               </MagneticButton>
 
               <MagneticButton 
                 href="https://github.com/TAJKING10" 
                 target="_blank"
-                className="w-full lg:w-auto px-12 md:px-16 py-8 md:py-10 rounded-[40px] font-black text-2xl md:text-3xl transition-all flex items-center justify-center gap-6 group border-white/20"
+                className="w-full lg:w-auto px-8 md:px-12 py-5 md:py-6 rounded-[32px] font-black text-lg md:text-xl transition-all flex items-center justify-center gap-4 group border-white/20"
               >
-                <Github className="w-8 h-8 md:w-10 md:h-10" /> GITHUB
+                <Github className="w-5 h-5 md:w-6 md:h-6" /> GITHUB
               </MagneticButton>
             </motion.div>
           </motion.div>
@@ -341,7 +341,7 @@ const App: React.FC = () => {
         <section id="projects" className="py-24 md:py-56 px-6 relative">
           <div className="max-w-7xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-24 md:mb-40 text-center">
-              <h2 className="text-5xl md:text-[9rem] font-black mb-8 md:mb-10 tracking-tighter leading-[1.1] md:leading-[0.8] text-white">Project <br className="hidden md:block" /> <span className="text-gradient">Portfolio.</span></h2>
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-[1.1] md:leading-[0.85] text-white">Project <span className="text-gradient">Portfolio.</span></h2>
               <div className="h-2 w-40 md:w-60 bg-gradient-to-r from-blue-600 to-pink-600 mx-auto rounded-full" />
             </motion.div>
             
@@ -363,7 +363,7 @@ const App: React.FC = () => {
         <section id="experience" className="py-32 md:py-60 px-6 relative">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-24 md:mb-40">
-              <h2 className="text-5xl md:text-[9rem] font-black mb-6 tracking-tighter text-white">Lineage.</h2>
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter text-white">Lineage.</h2>
               <p className="text-blue-500 font-black text-xs uppercase tracking-[0.8em]">Career Protocol Logs</p>
             </div>
             
@@ -413,7 +413,7 @@ const App: React.FC = () => {
         {/* Diagnostic Stack Section */}
         <section id="skills" className="py-24 md:py-40 px-6 bg-blue-600/[0.02]">
           <div className="max-w-7xl mx-auto text-center mb-24 md:mb-40">
-            <h2 className="text-5xl md:text-[8rem] font-black tracking-tighter text-white mb-8 uppercase">Diagnostics.</h2>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-white mb-6 uppercase">Diagnostics.</h2>
             <p className="text-blue-500 font-black uppercase tracking-[0.5em] text-xs">Full-Spectrum System Mastery</p>
           </div>
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
@@ -428,8 +428,8 @@ const App: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <div className="glass p-12 md:p-32 rounded-[60px] md:rounded-[80px] text-center border-white/10 shadow-[0_0_150px_rgba(0,0,0,1)] relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/10 via-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-2000" />
-              <h2 className="text-4xl md:text-8xl lg:text-[11rem] font-black mb-16 md:mb-20 tracking-tighter leading-[1.1] md:leading-[0.8] text-white">
-                Initiate <br className="hidden md:block" /> <span className="text-gradient">Protocol.</span>
+              <h2 className="text-3xl md:text-6xl lg:text-7xl font-black mb-12 md:mb-16 tracking-tighter leading-[1.1] md:leading-[0.85] text-white">
+                Initiate <span className="text-gradient">Protocol.</span>
               </h2>
               
               <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-12 mb-16 md:mb-20">
@@ -452,9 +452,9 @@ const App: React.FC = () => {
                 href="https://wa.me/37128103532" 
                 target="_blank"
                 variant="primary"
-                className="inline-flex items-center gap-6 md:gap-8 px-12 md:px-20 py-8 md:py-10 rounded-[32px] md:rounded-[40px] font-black text-2xl md:text-5xl group hover:scale-105 transition-all overflow-hidden relative"
+                className="inline-flex items-center gap-4 md:gap-6 px-8 md:px-14 py-5 md:py-7 rounded-[28px] md:rounded-[32px] font-black text-xl md:text-2xl group hover:scale-105 transition-all overflow-hidden relative"
               >
-                SECURE ACCESS <ArrowRight className="w-8 h-8 md:w-16 md:h-16 group-hover:translate-x-6 transition-transform" />
+                SECURE ACCESS <ArrowRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-4 transition-transform" />
               </MagneticButton>
             </div>
           </div>

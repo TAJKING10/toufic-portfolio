@@ -1,5 +1,4 @@
-
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const SYSTEM_INSTRUCTION = `
 You are the personal AI Assistant for Toufic Jandah, a world-class Senior Full-Stack Engineer and API Architect.
@@ -25,26 +24,31 @@ If asked about contact details, mention his LinkedIn (linkedin.com/in/toufic-jan
 `;
 
 export class PortfolioAI {
-  private ai: GoogleGenAI;
+  private genAI: GoogleGenerativeAI;
+  private model: any;
 
   constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    // Note: In production, the API key should be handled via environment variables
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+    this.genAI = new GoogleGenerativeAI(apiKey);
+    this.model = this.genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: SYSTEM_INSTRUCTION,
+    });
   }
 
   async ask(prompt: string): Promise<string> {
     try {
-      const response = await this.ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.7,
-        },
-      });
-      return response.text || "I'm sorry, I couldn't process that right now.";
+      if (!import.meta.env.VITE_GEMINI_API_KEY) {
+        return "I'm currently in 'offline mode' (API key not configured). Toufic is a master of AI integration, but my brain needs a key to function fully!";
+      }
+
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      return response.text() || "I'm sorry, I couldn't process that right now.";
     } catch (error) {
       console.error("AI Error:", error);
-      return "I encountered an error while trying to think. Please try again!";
+      return "I encountered an error while trying to think. Please try again or reach out to Toufic directly!";
     }
   }
 }

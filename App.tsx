@@ -20,7 +20,6 @@ import {
   Terminal
 } from 'lucide-react';
 import Navbar from './components/Navbar';
-import AIAssistant from './components/AIAssistant';
 import ProjectModal from './components/ProjectModal';
 import Background from './components/Background';
 import Preloader from './components/Preloader';
@@ -420,8 +419,6 @@ const App: React.FC = () => {
       <AnimatePresence>
         {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
       </AnimatePresence>
-
-      <AIAssistant />
     </div>
   );
 };

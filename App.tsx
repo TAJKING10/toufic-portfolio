@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform, AnimatePresence, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue } from 'framer-motion';
 import { 
   ArrowRight, 
   Github, 
@@ -14,7 +15,8 @@ import {
   Activity,
   Cpu,
   Shield,
-  Layers
+  Layers,
+  Monitor
 } from 'lucide-react';
 import Navbar from './components/Navbar';
 import AIAssistant from './components/AIAssistant';
@@ -48,7 +50,7 @@ const KineticText: React.FC<{ text: string; className?: string }> = ({ text, cla
   );
 };
 
-const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; onClick?: () => void; href?: string; target?: string }> = ({ children, className, onClick, href, target }) => {
+const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; onClick?: () => void; href?: string; target?: string; variant?: 'primary' | 'secondary' }> = ({ children, className, onClick, href, target, variant = 'secondary' }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
@@ -80,9 +82,20 @@ const MagneticButton: React.FC<{ children: React.ReactNode; className?: string; 
         href={href}
         target={target}
         onClick={onClick}
-        className={className}
+        className={`${className} ${
+          variant === 'primary' 
+            ? 'bg-blue-600 text-white shadow-[0_0_40px_rgba(37,99,235,0.4)] hover:shadow-[0_0_60px_rgba(37,99,235,0.6)]' 
+            : 'glass text-white hover:bg-white/10'
+        } transition-all duration-500`}
       >
         <span className="relative z-10 flex items-center justify-center gap-3">{children}</span>
+        {variant === 'primary' && (
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
+            animate={{ translateX: ['100%', '-100%'] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+          />
+        )}
       </Component>
     </motion.div>
   );
@@ -157,7 +170,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Simulate loading
-    setTimeout(() => setLoading(false), 2500);
+    setTimeout(() => setLoading(false), 2000);
   }, []);
 
   return (
@@ -182,7 +195,7 @@ const App: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 2.8 }}
+              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 1 }}
               className="mb-14 relative inline-block group"
             >
               <div className="absolute -inset-12 bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-600 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition duration-1000 animate-pulse" />
@@ -202,7 +215,7 @@ const App: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.2 }}
+                transition={{ delay: 1.2 }}
                 className="px-6 py-2 glass rounded-full border-blue-500/20 text-blue-400 font-black text-xs uppercase tracking-[0.5em] flex items-center gap-3"
               >
                 <div className="pulse-status-green" /> System Online
@@ -220,7 +233,7 @@ const App: React.FC = () => {
             <motion.p 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 3.8, duration: 1 }}
+              transition={{ delay: 1.8, duration: 1 }}
               className="max-w-4xl mx-auto text-xl md:text-3xl text-slate-400 mb-20 leading-relaxed font-medium tracking-tight px-4"
             >
               The Master Architect behind <span className="text-white font-bold border-b-2 border-blue-600/50">Unbreakable</span> Global Digital Infrastructures.
@@ -229,21 +242,22 @@ const App: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 4.2, duration: 0.8 }}
+              transition={{ delay: 2.2, duration: 0.8 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-10 px-6"
             >
               <MagneticButton 
                 href="#projects"
-                className="px-16 py-8 bg-white text-black rounded-[40px] font-black text-2xl transition-all hover:shadow-[0_20px_60px_rgba(255,255,255,0.2)] group"
+                variant="primary"
+                className="px-20 py-10 rounded-[40px] font-black text-3xl transition-all overflow-hidden relative group"
               >
-                VIEW PROJECTS <InfinityIcon className="w-8 h-8 group-hover:rotate-180 transition-transform duration-700" />
+                VIEW PROJECTS <Monitor className="w-10 h-10 group-hover:scale-110 transition-transform" />
               </MagneticButton>
               <MagneticButton 
                 href="https://github.com/TAJKING10" 
                 target="_blank"
-                className="px-16 py-8 glass rounded-[40px] font-black text-2xl transition-all text-white flex items-center justify-center gap-6 group"
+                className="px-20 py-10 rounded-[40px] font-black text-3xl transition-all flex items-center justify-center gap-6 group border-white/20"
               >
-                <Github className="w-8 h-8" /> GITHUB
+                <Github className="w-10 h-10" /> GITHUB
               </MagneticButton>
             </motion.div>
           </motion.div>
@@ -251,10 +265,10 @@ const App: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 5.5 }}
+            transition={{ delay: 3.5 }}
             className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-slate-600"
           >
-            <span className="text-[10px] font-black uppercase tracking-[0.8em] animate-pulse">Deep Scaning Data</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.8em] animate-pulse">Deep Scanning Data</span>
             <ChevronDown className="w-6 h-6 animate-bounce text-blue-500" />
           </motion.div>
         </section>
@@ -375,7 +389,8 @@ const App: React.FC = () => {
               <MagneticButton 
                 href="https://wa.me/37128103532" 
                 target="_blank"
-                className="inline-flex items-center gap-8 px-20 py-10 bg-white text-black rounded-[40px] font-black text-3xl md:text-5xl shadow-[0_40px_100px_rgba(255,255,255,0.15)] group hover:scale-105 transition-all"
+                variant="primary"
+                className="inline-flex items-center gap-8 px-20 py-10 rounded-[40px] font-black text-3xl md:text-5xl group hover:scale-105 transition-all overflow-hidden relative"
               >
                 SECURE ACCESS <ArrowRight className="w-10 h-10 md:w-16 md:h-16 group-hover:translate-x-6 transition-transform" />
               </MagneticButton>

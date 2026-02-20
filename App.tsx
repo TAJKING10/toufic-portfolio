@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue } from 'framer-motion';
 import { 
@@ -16,7 +15,8 @@ import {
   Cpu,
   Shield,
   Layers,
-  Monitor
+  Monitor,
+  Terminal
 } from 'lucide-react';
 import Navbar from './components/Navbar';
 import AIAssistant from './components/AIAssistant';
@@ -105,52 +105,59 @@ const SkillDiagnostic: React.FC<{ category: typeof SKILL_CATEGORIES[0], index: n
   const [load, setLoad] = useState(0);
   
   useEffect(() => {
-    const timer = setTimeout(() => setLoad(85 + (index * 4)), 3000);
+    const timer = setTimeout(() => setLoad(85 + (index * 4)), 1000);
     return () => clearTimeout(timer);
   }, [index]);
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      whileHover={{ y: -10 }}
-      className="p-10 glass rounded-[48px] border border-white/5 relative overflow-hidden group"
+      whileHover={{ y: -10, borderColor: 'rgba(59, 130, 246, 0.5)' }}
+      className="p-10 glass rounded-[48px] border border-white/10 relative overflow-hidden group bg-black/40"
     >
-      <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
-        <Activity className="w-20 h-20 text-blue-500" />
+      <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-30 transition-opacity">
+        <Activity className="w-24 h-24 text-blue-500" />
       </div>
       
-      <div className="flex items-center gap-4 mb-10">
-        <div className="w-12 h-12 rounded-2xl bg-blue-600/20 flex items-center justify-center border border-blue-500/20">
-          <Cpu className="w-6 h-6 text-blue-500" />
+      <div className="flex items-center gap-6 mb-12">
+        <div className="w-16 h-16 rounded-[24px] bg-blue-600 shadow-[0_0_30px_rgba(37,99,235,0.3)] flex items-center justify-center border border-blue-400/30">
+          <Terminal className="w-8 h-8 text-white" />
         </div>
         <div>
-          <h3 className="text-xl font-black text-white tracking-tighter">{category.title}</h3>
-          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Diagnostic Level: {load}%</p>
+          <h3 className="text-2xl font-black text-white tracking-tighter uppercase">{category.title}</h3>
+          <div className="flex items-center gap-3 mt-1">
+            <div className="pulse-status-green" />
+            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Load Efficiency: {load}%</p>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-4 mb-10">
-        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-          <motion.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: `${load}%` }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="h-full bg-gradient-to-r from-blue-600 to-violet-600 shadow-[0_0_20px_rgba(37,99,235,0.5)]"
-          />
-        </div>
-        <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-slate-600">
+      <div className="space-y-4 mb-12">
+        <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
           <span>Cold Standby</span>
           <span className="text-blue-500">Peak Performance</span>
         </div>
+        <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/10 p-[2px]">
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: `${load}%` }}
+            transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
+            className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-pink-600 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.8)]"
+          />
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-2.5">
+      <div className="flex flex-wrap gap-3">
         {category.skills.map((s, j) => (
-          <span key={j} className="px-4 py-2 rounded-xl bg-white/5 text-[9px] text-slate-400 font-black border border-white/10 uppercase tracking-[0.1em] hover:bg-blue-600/20 hover:text-white hover:border-blue-500/30 transition-all cursor-default">
+          <motion.span 
+            key={j} 
+            whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.2)' }}
+            className="px-6 py-3 rounded-2xl bg-white/10 text-xs text-white font-bold border border-white/20 uppercase tracking-[0.1em] hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-default shadow-lg backdrop-blur-md"
+          >
             {s}
-          </span>
+          </motion.span>
         ))}
       </div>
     </motion.div>
@@ -351,10 +358,10 @@ const App: React.FC = () => {
         {/* Diagnostic Stack Section */}
         <section id="skills" className="py-40 px-6 bg-blue-600/[0.02]">
           <div className="max-w-7xl mx-auto text-center mb-40">
-            <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter text-white mb-8">Diagnostics.</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-[0.5em] text-xs">Full-Spectrum System Mastery</p>
+            <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter text-white mb-8 uppercase">Diagnostics.</h2>
+            <p className="text-blue-500 font-black uppercase tracking-[0.5em] text-xs">Full-Spectrum System Mastery</p>
           </div>
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
             {SKILL_CATEGORIES.map((cat, i) => (
               <SkillDiagnostic key={i} category={cat} index={i} />
             ))}

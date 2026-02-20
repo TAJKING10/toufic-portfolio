@@ -5,33 +5,41 @@
     --bg-color: #030712;
   }
   
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: #030712;
-    color: #e2e8f0; /* slate-200 equivalent */
+    color: #f8fafc;
     overflow-x: hidden;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background-color: rgba(59, 130, 246, 0.3); /* blue-500/30 */
+    background-color: rgba(59, 130, 246, 0.4);
     color: white;
   }
 }
 
 @layer components {
   .glass {
-    background-color: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(40px);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(24px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  }
+
+  .glass-hover {
+    @apply transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-[0_0_40px_rgba(37,99,235,0.15)];
   }
   
   .text-gradient {
-    background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-weight: 900;
   }
 
   .vignette {
@@ -39,32 +47,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 10;
-    background: radial-gradient(circle at center, transparent 0%, rgba(3, 7, 18, 0.4) 100%);
-  }
-
-  .cursor-dot {
-    width: 8px;
-    height: 8px;
-    background-color: white;
-    border-radius: 9999px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  .cursor-outline {
-    width: 40px;
-    height: 40px;
-    border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.3);
-    border-radius: 9999px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9998;
+    background: radial-gradient(circle at center, transparent 20%, rgba(3, 7, 18, 0.8) 100%);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -84,4 +67,15 @@ video::-webkit-media-controls-mute-button {
 
 video::-webkit-media-controls-volume-slider {
     display: none !important;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

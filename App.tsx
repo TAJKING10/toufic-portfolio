@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
+import { Github } from 'lucide-react';
 import Navbar from './components/Navbar';
 import ProjectModal from './components/ProjectModal';
 import Background from './components/Background';
@@ -98,6 +99,13 @@ const App: React.FC = () => {
                 className="px-10 py-4 rounded-full font-bold text-sm bg-white/5 text-white hover:bg-white/10 border border-white/10 transition-all"
               >
                 DOWNLOAD CV
+              </a>
+              <a 
+                href="https://github.com/TAJKING10" 
+                target="_blank"
+                className="px-10 py-4 rounded-full font-bold text-sm bg-white/5 text-white hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2"
+              >
+                <Github className="w-4 h-4" /> GITHUB
               </a>
             </motion.div>
           </motion.div>

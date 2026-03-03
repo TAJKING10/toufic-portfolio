@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
-import { Github } from 'lucide-react';
+import { Github, MessageCircle } from 'lucide-react';
 import Navbar from './components/Navbar';
 import ProjectModal from './components/ProjectModal';
 import Background from './components/Background';
@@ -208,6 +208,13 @@ const App: React.FC = () => {
                 className="px-10 py-5 rounded-full font-bold text-base bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all"
               >
                 LINKEDIN
+              </a>
+              <a 
+                href="https://wa.me/37128103532" 
+                target="_blank"
+                className="px-10 py-5 rounded-full font-bold text-base bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all flex items-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5" /> WHATSAPP
               </a>
             </div>
           </div>

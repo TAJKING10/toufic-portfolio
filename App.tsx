@@ -116,7 +116,7 @@ const App: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
               <div>
-                <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-white">Selected Works</h2>
+                <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-white">Projects</h2>
                 <p className="text-slate-500 text-sm tracking-wide">A collection of digital products and experiments.</p>
               </div>
               
@@ -126,7 +126,7 @@ const App: React.FC = () => {
                   <button
                     key={cat}
                     onClick={() => setFilter(cat)}
-                    className={`px-6 py-2 rounded-full text-[11px] font-bold transition-all ${
+                    className={`px-6 py-2 rounded-full text-[11px] font-bold transition-all duration-300 ${
                       filter === cat 
                         ? 'bg-blue-600 text-white shadow-lg' 
                         : 'text-slate-400 hover:text-white'
@@ -140,9 +140,10 @@ const App: React.FC = () => {
             
             <motion.div 
               layout
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 min-h-[600px]"
             >
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence mode="popLayout" initial={false}>
                 {filteredProjects.map((project, idx) => (
                   <ProjectCard 
                     key={project.id} 

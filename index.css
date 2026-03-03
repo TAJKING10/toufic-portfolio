@@ -2,52 +2,41 @@
 
 @layer base {
   :root {
-    --bg-color: #030712;
+    --bg-color: #020617; /* Slate 950 */
   }
   
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    background-color: #030712;
+    background-color: #020617;
     color: #f8fafc;
     overflow-x: hidden;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     -webkit-font-smoothing: antialiased;
+    selection-background-color: rgba(59, 130, 246, 0.2);
   }
 
   ::selection {
-    background-color: rgba(59, 130, 246, 0.4);
-    color: white;
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
   }
 }
 
 @layer components {
   .glass {
     background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(24px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .glass-hover {
-    @apply transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-[0_0_40px_rgba(37,99,235,0.15)];
-  }
-  
   .text-gradient {
-    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+    background: linear-gradient(to right, #ffffff, #94a3b8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .vignette {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 10;
-    background: radial-gradient(circle at center, transparent 20%, rgba(3, 7, 18, 0.8) 100%);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -58,44 +47,26 @@
     scrollbar-width: none;
   }
 
-  .pulse-status-green {
-    @apply relative flex h-2 w-2;
-  }
-  .pulse-status-green span:first-child {
-    @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75;
-  }
-  .pulse-status-green span:last-child {
-    @apply relative inline-flex rounded-full h-2 w-2 bg-green-500;
-  }
-
-  .pulse-status-blue {
-    @apply relative flex h-2 w-2;
-  }
-  .pulse-status-blue span:first-child {
-    @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75;
-  }
-  .pulse-status-blue span:last-child {
-    @apply relative inline-flex rounded-full h-2 w-2 bg-blue-500;
+  /* Custom Transitions */
+  .transition-premium {
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
-/* Hide volume and mute controls */
-video::-webkit-media-controls-volume-control-container,
-video::-webkit-media-controls-mute-button {
-    display: none !important;
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-video::-webkit-media-controls-volume-slider {
-    display: none !important;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-/* Animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

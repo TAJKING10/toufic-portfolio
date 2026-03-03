@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -9,7 +8,7 @@ export interface Project {
   link?: string;
   image: string;
   videoUrls?: string[];
-  category?: 'AI' | 'Fintech' | 'Full-Stack' | 'Mobile';
+  categories: string[];
 }
 
 export interface Experience {

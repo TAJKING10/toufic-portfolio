@@ -13,7 +13,12 @@
       "Bash(npm install:*)",
       "Bash(npm run deploy:*)",
       "Bash(timeout:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(dir:*)",
+      "Bash(powershell -Command \"\\(Get-Content index-ypRORcwI.js\\) -match ''SECURE ACCESS''\")",
+      "Bash(powershell -Command \"if\\(\\(Get-Content index-ypRORcwI.js -Raw\\) -match ''CONTACT ME''\\) { Write-Host ''Found CONTACT ME'' } else { Write-Host ''Not found'' }\")",
+      "Bash(powershell:*)",
+      "Bash(npx gh-pages:*)"
     ]
   }
 }
